@@ -84,8 +84,8 @@ void RemoveAbbRec(Arvore& A, int Info){
                     delete aux;
                 }
                 else{//tem 2 filhos não nulos
-                    int Info2 = MaiorEsquerda(A);
-                    //int Info2 = MenorDireita(A);
+                    int Info2 = MaiorEsquerda(aux);
+                    //int Info2 = MenorDireita(aux);
                     RemoveAbbRec(aux, Info2);
                     aux->Info = Info2;
                 }
@@ -106,8 +106,8 @@ void RemoveAbbRec(Arvore& A, int Info){
                     delete aux;
                 }
                 else{ //tem 2 filhos não nulos
-                    int Info2 = MaiorEsquerda(A);
-                    //int Info2 = MenorDireita(A);
+                    int Info2 = MaiorEsquerda(aux);
+                    //int Info2 = MenorDireita(aux);
                     RemoveAbbRec(aux, Info2);
                     aux->Info = Info2;
                 }
@@ -116,12 +116,18 @@ void RemoveAbbRec(Arvore& A, int Info){
                 RemoveAbbRec(aux, Info);
         }
         else{//o numero é a raiz da arvore
-            int Info2 = MaiorEsquerda(A);
-            //int Info2 = MenorDireita(A);
-            RemoveAbbRec(A, Info2);
-            A->Info = Info2;
+            int Info2 = 0;
+            if(A->esq)
+                Info2 = MaiorEsquerda(A);
+            else if(A->dir)
+                Info2 = MenorDireita(A);
+            else
+                A = NULL;
+            if(Info2){
+                RemoveAbbRec(A, Info2);
+                A->Info = Info2;
+            }
         }
-
     }
 }
 
@@ -130,6 +136,29 @@ void RemoveAbbRec(Arvore& A, int Info){
 
 
 int main () {
+
+   Arvore t = NULL;
+
+   insereAbbRec(t, 3);
+   insereAbbRec(t, 1);
+   insereAbbRec(t, 2);
+   insereAbbRec(t, 5);
+   insereAbbRec(t, 4);
+   insereAbbRec(t, 7);
+   insereAbbRec(t, 6);
+   insereAbbRec(t, 8);
+
+   RemoveAbbRec(t, 5);
+   RemoveAbbRec(t, 3);
+   RemoveAbbRec(t, 8);
+
+
+   cout << endl << "preordem: ";
+   preordem(t);
+   cout << endl << "   ordem: ";
+   ordem(t);
+   cout << endl << "posordem: ";
+   posordem(t);
 
     return 0;
 }
